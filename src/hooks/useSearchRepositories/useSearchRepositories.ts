@@ -21,11 +21,17 @@ async function searchRepositories(
   return response.data;
 }
 
-export function useSearchRepositories() {
-  const { data: repositories = [] } = useQuery<Repository[]>(
+export function useSearchRepositories(username: string) {
+  const {
+    data: repositories = [],
+    isLoading,
+    isError,
+    refetch,
+  } = useQuery<Repository[]>(
     ['repositories', 'kyrosx'],
-    () => searchRepositories('kyrosx')
+    () => searchRepositories(username),
+    { enabled: false, retry: false }
   );
 
-  return { repositories };
+  return { repositories, isLoading, isError, refetch };
 }
