@@ -1,9 +1,10 @@
 import React from 'react';
+import { RepositoriesList } from './pages';
 
 export function App() {
   return (
     <div>
-      <h1>Hello app</h1>
+      <RepositoriesList />
     </div>
   );
 }
