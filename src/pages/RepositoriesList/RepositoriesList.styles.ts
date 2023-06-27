@@ -1,13 +1,13 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
-  background-color: #f6f8fa;
+  background-color: ${({ theme }) => theme.colors.background};
   min-height: 100vh;
 `;
 
 export const Header = styled.header`
   background-color: #24292e;
-  color: #fff;
+  color: ${({ theme }) => theme.colors.background_light};
   padding: 16px;
 `;
 
@@ -29,8 +29,8 @@ export const Input = styled.input`
 `;
 
 export const Button = styled.button`
-  background-color: #28a745;
-  color: #fff;
+  background-color: ${({ theme }) => theme.colors.green};
+  color: ${({ theme }) => theme.colors.background_light};
   padding: 8px 16px;
   border: none;
   cursor: pointer;
