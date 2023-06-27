@@ -2,9 +2,13 @@ import axios from 'axios';
 import { useQuery } from 'react-query';
 
 interface Repository {
+  id: string;
   name: string;
   description: string;
   url: string;
+  language: string;
+  updated_at: string;
+  private: boolean;
 }
 
 async function searchRepositories(
@@ -14,11 +18,7 @@ async function searchRepositories(
     `https://api.github.com/users/${username}/repos`
   );
 
-  return response.data.map((repo: any) => ({
-    name: repo.name,
-    description: repo.description,
-    url: repo.html_url,
-  }));
+  return response.data;
 }
 
 export function useSearchRepositories() {

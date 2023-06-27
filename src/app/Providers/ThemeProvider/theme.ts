@@ -11,7 +11,4 @@ export const theme = {
     green: '#28a745',
     green_bold: '#218838',
   },
-  fonts: {
-    primary: '',
-  },
 };

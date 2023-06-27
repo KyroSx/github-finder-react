@@ -1,6 +1,7 @@
 import React from 'react';
 import * as Styles from './RepositoriesList.styles';
 import { useSearchRepositories } from '../../hooks';
+import { List } from './List';
 
 export function RepositoriesList() {
   const { repositories } = useSearchRepositories();
@@ -17,9 +18,7 @@ export function RepositoriesList() {
           <Styles.Button>Pesquisar</Styles.Button>
         </Styles.SearchBar>
 
-        {repositories.map((repo) => (
-          <h1 key={repo.name}>{repo.name}</h1>
-        ))}
+        <List repositories={repositories} />
       </Styles.Content>
     </Styles.Container>
   );
