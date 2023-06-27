@@ -1,13 +1,14 @@
 import React from 'react';
 import { RepositoriesList } from './pages';
-import { GlobalStyle, ThemeProvider } from './ui';
+import { GlobalStyle } from './ui';
+import { Providers } from './app';
 
 export function App() {
   return (
-    <ThemeProvider>
+    <Providers>
       <RepositoriesList />
 
       <GlobalStyle />
-    </ThemeProvider>
+    </Providers>
   );
 }
