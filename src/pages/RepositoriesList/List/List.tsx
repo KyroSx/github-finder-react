@@ -1,16 +1,9 @@
 import React from 'react';
 import * as Styles from './List.styles';
+import { Repository } from '../../../models';
 
 interface ListProps {
-  repositories: Array<{
-    id: string;
-    name: string;
-    description: string;
-    url: string;
-    language: string;
-    updated_at: string;
-    private: boolean;
-  }>;
+  repositories: Repository[];
 }
 
 export function List({ repositories }: ListProps) {

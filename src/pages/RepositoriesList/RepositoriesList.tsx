@@ -1,25 +1,17 @@
-import React, { useState } from 'react';
+import React from 'react';
 import * as Styles from './RepositoriesList.styles';
 import { useSearchRepositories } from '../../hooks';
 import { List } from './List';
-
-function useSearchInput() {
-  const [searchQuery, setSearchQuery] = useState('');
-
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchQuery(event.target.value);
-  };
-
-  return { searchQuery, handleChange };
-}
+import { LoadingList } from './LoadingList';
+import { useSearchInput } from './useSearchInput';
 
 export function RepositoriesList() {
   const { searchQuery, handleChange } = useSearchInput();
-  const { repositories, isLoading, isError, refetch } =
+  const { repositories, isLoading, isError, dispatchSearchRepositories } =
     useSearchRepositories(searchQuery);
 
   const handleSearch = async () => {
-    await refetch();
+    await dispatchSearchRepositories();
   };
 
   return (
@@ -40,8 +32,10 @@ export function RepositoriesList() {
           <Styles.Button onClick={handleSearch}>Pesquisar</Styles.Button>
         </Styles.SearchBar>
 
-        {isLoading && <div>Loading...</div>}
+        {isLoading && <LoadingList />}
+
         {isError && <div>Error</div>}
+
         {repositories && <List repositories={repositories} />}
       </Styles.Content>
     </Styles.Container>

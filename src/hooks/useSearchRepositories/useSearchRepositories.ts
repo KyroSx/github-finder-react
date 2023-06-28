@@ -1,37 +1,28 @@
-import axios from 'axios';
 import { useQuery } from 'react-query';
-
-interface Repository {
-  id: string;
-  name: string;
-  description: string;
-  url: string;
-  language: string;
-  updated_at: string;
-  private: boolean;
-}
-
-async function searchRepositories(
-  username: string
-): Promise<Array<Repository>> {
-  const response = await axios.get(
-    `https://api.github.com/users/${username}/repos`
-  );
-
-  return response.data;
-}
+import { searchRepositories } from '../../services';
+import { Repository } from '../../models';
 
 export function useSearchRepositories(username: string) {
   const {
     data: repositories = [],
     isLoading,
     isError,
+    isFetching,
     refetch,
   } = useQuery<Repository[]>(
-    ['repositories', 'kyrosx'],
+    ['repositories'],
     () => searchRepositories(username),
     { enabled: false, retry: false }
   );
 
-  return { repositories, isLoading, isError, refetch };
+  const dispatchSearchRepositories = async () => {
+    await refetch();
+  };
+
+  return {
+    repositories,
+    isLoading: isLoading || isFetching,
+    isError,
+    dispatchSearchRepositories,
+  };
 }
