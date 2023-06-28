@@ -1,12 +1,24 @@
 import React from 'react';
 import * as Styles from './List.styles';
 import { Repository } from '../../../models';
+import { LoadingList } from '../LoadingList';
 
 interface ListProps {
   repositories: Repository[];
+
+  isLoading: boolean;
+  isError: boolean;
 }
 
-export function List({ repositories }: ListProps) {
+export function List({ repositories, isLoading, isError }: ListProps) {
+  if (isLoading) {
+    return <LoadingList />;
+  }
+
+  if (isError) {
+    return <div>Error</div>;
+  }
+
   return (
     <>
       {repositories.map((repo) => (
