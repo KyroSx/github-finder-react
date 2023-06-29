@@ -3,12 +3,12 @@ import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import {
   getSearchRepositoriesHandler,
-  useSetupServer,
   renderComponent,
+  ServerMockHandler,
 } from '../../testing';
 
 describe(RepositoriesList, () => {
-  useSetupServer(getSearchRepositoriesHandler());
+  ServerMockHandler.start(getSearchRepositoriesHandler());
 
   function setUp() {
     renderComponent(RepositoriesList);
