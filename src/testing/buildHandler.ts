@@ -8,6 +8,6 @@ type Handler<T> = {
 
 export function buildHandler<T extends DefaultBodyType>(props: Handler<T>) {
   return rest[props.method](props.url, (req, res, ctx) => {
-    return res(ctx.json(props.response));
+    return res(ctx.delay(), ctx.json(props.response));
   });
 }
