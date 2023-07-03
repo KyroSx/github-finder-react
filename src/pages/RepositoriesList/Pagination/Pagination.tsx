@@ -23,6 +23,7 @@ export const Pagination: React.FC<PaginationProps> = ({
       <Styles.PageButton
         disabled={currentPage === 1}
         onClick={() => handlePageChange(currentPage - 1)}
+        aria-label="previous page"
       >
         &lt; previous
       </Styles.PageButton>
@@ -30,6 +31,7 @@ export const Pagination: React.FC<PaginationProps> = ({
       <Styles.PageButton
         disabled={currentPage === totalPages}
         onClick={() => handlePageChange(currentPage + 1)}
+        aria-label="next page"
       >
         next &gt;
       </Styles.PageButton>
