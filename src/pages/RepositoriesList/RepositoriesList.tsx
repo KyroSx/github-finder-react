@@ -6,8 +6,14 @@ import { useSearchInput } from './useSearchInput';
 
 export function RepositoriesList() {
   const { searchQuery, handleChange } = useSearchInput();
-  const { repositories, isLoading, isError, dispatchSearchRepositories } =
-    useSearchRepositories(searchQuery);
+  const {
+    repositories,
+    isLoading,
+    isError,
+    dispatchSearchRepositories,
+    page,
+    setPage,
+  } = useSearchRepositories(searchQuery);
 
   const handleSearch = async () => {
     await dispatchSearchRepositories();
@@ -35,6 +41,8 @@ export function RepositoriesList() {
           repositories={repositories}
           isError={isError}
           isLoading={isLoading}
+          page={page}
+          updatePagination={setPage}
         />
       </Styles.Content>
     </Styles.Container>
