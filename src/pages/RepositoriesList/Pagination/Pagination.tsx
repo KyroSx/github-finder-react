@@ -19,7 +19,7 @@ export const Pagination: React.FC<PaginationProps> = ({
   };
 
   return (
-    <Styles.PaginationContainer>
+    <Styles.PaginationContainer aria-label="pagination">
       <Styles.PageButton
         disabled={currentPage === 1}
         onClick={() => handlePageChange(currentPage - 1)}

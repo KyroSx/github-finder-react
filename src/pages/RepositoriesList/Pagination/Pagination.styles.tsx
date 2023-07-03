@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const PaginationContainer = styled.div`
+export const PaginationContainer = styled.nav`
   display: flex;
   justify-content: center;
   margin-top: 16px;
