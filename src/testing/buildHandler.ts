@@ -25,10 +25,7 @@ export function buildHandler<T extends DefaultBodyType>(props: Handler<T>) {
 function buildPaginatedHandler<T extends DefaultBodyType>(
   props: PaginatedHandler<T>
 ) {
-  const responses = props.paginatedResponse.map((item) => ({
-    ...item,
-    url: props.url.replace(':page', item.page.toString()),
-  }));
+  const responses = props.paginatedResponse;
 
   return rest[props.method](props.url, (req, res, ctx) => {
     const pageParam = req.url.searchParams.get('page');
@@ -40,7 +37,10 @@ function buildPaginatedHandler<T extends DefaultBodyType>(
       const nextPage = page + 1;
       const lastPage = responses[responses.length - 1].page;
 
-      const linkHeader = `<${props.url}?page=${nextPage}>; rel="next", <${props.url}?page=${lastPage}>; rel="last"`;
+      const linkHeader =
+        page === lastPage
+          ? ''
+          : `<${props.url}?page=${nextPage}>; rel="next", <${props.url}?page=${lastPage}>; rel="last"`;
 
       return res(
         ctx.delay(),

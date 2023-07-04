@@ -49,12 +49,12 @@ export function useSearchRepositories(
   }
 
   return {
-    status: query.isLoading ? Status.loading : Status.error,
+    status: query.isLoading || query.isFetching ? Status.loading : Status.error,
     repositories: null,
-
-    totalPages: null,
-    page: null,
     dispatchSearchRepositories,
+
+    page: null,
+    totalPages: null,
     setPage: null,
   };
 }

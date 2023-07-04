@@ -23,4 +23,4 @@ export const PageButton = styled.button<{ disabled: boolean }>`
     outline: none;
     box-shadow: 0 0 0 3px rgba(3, 102, 214, 0.3);
   }
-}`;
+`;

@@ -2,7 +2,7 @@ import { buildHandler } from '../buildHandler';
 
 export function getSearchRepositoriesHandler() {
   return buildHandler({
-    url: 'https://api.github.com/users/:username/repos?page=:page',
+    url: 'https://api.github.com/users/:username/repos',
     method: 'get',
     paginated: true,
     paginatedResponse: [

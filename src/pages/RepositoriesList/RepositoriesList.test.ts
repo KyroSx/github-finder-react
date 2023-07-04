@@ -107,4 +107,21 @@ describe(RepositoriesList, () => {
       expect(screen.getByText('repo-name#3')).toBeInTheDocument();
     });
   });
+
+  it('disables last and previous pagination button', async () => {
+    setUp();
+
+    Events.typeOn(getSearchInput())('username');
+    Events.clickOn(getSearchButton());
+
+    await waitFor(() => {
+      expect(getPreviousPaginationButton()).toBeDisabled();
+      Events.clickOn(getNextPaginationButton());
+    });
+
+    await waitFor(() => {
+      expect(getPreviousPaginationButton()).not.toBeDisabled();
+      expect(getNextPaginationButton()).toBeDisabled();
+    });
+  });
 });
