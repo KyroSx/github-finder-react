@@ -1,7 +1,6 @@
 import React from 'react';
 import * as Styles from './List.styles';
 import { Repository } from '../../../models';
-import { LoadingList } from '../LoadingList';
 import { Pagination } from '../Pagination';
 
 interface ListProps {
@@ -9,26 +8,15 @@ interface ListProps {
 
   page: number;
   updatePagination: (page: number) => void;
-
-  isLoading: boolean;
-  isError: boolean;
+  totalPages: number;
 }
 
 export function List({
   repositories,
-  isLoading,
-  isError,
   page,
   updatePagination,
+  totalPages,
 }: ListProps) {
-  if (isLoading) {
-    return <LoadingList />;
-  }
-
-  if (isError) {
-    return <div>Error</div>;
-  }
-
   return (
     <>
       <div>
@@ -58,7 +46,7 @@ export function List({
       {repositories.length !== 0 && (
         <Pagination
           currentPage={page}
-          totalPages={10}
+          totalPages={totalPages}
           onPageChange={updatePagination}
         />
       )}

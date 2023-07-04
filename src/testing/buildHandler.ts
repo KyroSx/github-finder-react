@@ -37,7 +37,16 @@ function buildPaginatedHandler<T extends DefaultBodyType>(
     const matchedResponse = responses.find((item) => item.page === page);
 
     if (matchedResponse) {
-      return res(ctx.delay(), ctx.json(matchedResponse.response));
+      const nextPage = page + 1;
+      const lastPage = responses[responses.length - 1].page;
+
+      const linkHeader = `<${props.url}?page=${nextPage}>; rel="next", <${props.url}?page=${lastPage}>; rel="last"`;
+
+      return res(
+        ctx.delay(),
+        ctx.set('link', linkHeader),
+        ctx.json(matchedResponse.response)
+      );
     }
 
     return res(ctx.status(404));

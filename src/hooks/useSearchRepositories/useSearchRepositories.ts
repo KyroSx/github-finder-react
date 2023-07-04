@@ -1,29 +1,33 @@
 import { useQuery } from 'react-query';
 import { searchRepositories } from '../../services';
-import { Repository } from '../../models';
+import { Paginated, Repository, Status } from '../../models';
 import { useState } from 'react';
+import { UseSearchRepositoriesResponse } from './useSearchRepositories.types';
 
-export function useSearchRepositories(username: string) {
+export function useSearchRepositories(
+  username: string
+): UseSearchRepositoriesResponse {
   const [page, setPage] = useState<number>(1);
-  const [pageSize, setPageSize] = useState<number>(3);
+  const [pageSize] = useState<number>(5);
   const [fetch, setFetch] = useState<boolean>(false);
+  const [totalPages, setTotalPages] = useState<number>(1);
 
-  const {
-    data: repositories = [],
-    isLoading,
-    isError,
-    isFetching,
-  } = useQuery<Repository[]>(
+  const query = useQuery<Paginated<Repository>>(
     ['repositories', page, pageSize],
     () => searchRepositories(username, page, pageSize),
     {
       enabled: fetch,
       retry: false,
-      onSettled: () => setFetch(false),
+      onSettled: (data) => {
+        setFetch(false);
+
+        data?.totalPages ? setTotalPages(data.totalPages) : setTotalPages(page);
+      },
     }
   );
 
   const dispatchSearchRepositories = async () => {
+    setPage(1);
     setFetch(true);
   };
 
@@ -32,14 +36,25 @@ export function useSearchRepositories(username: string) {
     setFetch(true);
   };
 
+  if (query.isSuccess) {
+    return {
+      status: Status.success,
+      repositories: query.data.items,
+      dispatchSearchRepositories,
+
+      page,
+      totalPages,
+      setPage: updatePagination,
+    };
+  }
+
   return {
-    repositories,
-    isLoading: isLoading || isFetching,
-    isError,
+    status: query.isLoading ? Status.loading : Status.error,
+    repositories: null,
+
+    totalPages: null,
+    page: null,
     dispatchSearchRepositories,
-    page,
-    setPage: updatePagination,
-    pageSize,
-    setPageSize,
+    setPage: null,
   };
 }
