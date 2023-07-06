@@ -1,12 +1,19 @@
 import axios from 'axios';
-import { Repository } from '../../models';
+import { Paginated, Repository } from '../../models';
+import { extractPageFromLastLink } from './extractPageFromLastLink';
 
 export async function searchRepositories(
-  username: string
-): Promise<Array<Repository>> {
+  username: string,
+  page: number,
+  pageSize: number
+): Promise<Paginated<Repository>> {
   const response = await axios.get(
-    `https://api.github.com/users/${username}/repos`
+    `https://api.github.com/users/${username}/repos`,
+    { params: { page, per_page: pageSize } }
   );
 
-  return response.data;
+  return {
+    items: response.data,
+    totalPages: +extractPageFromLastLink(response.headers.link)!,
+  };
 }

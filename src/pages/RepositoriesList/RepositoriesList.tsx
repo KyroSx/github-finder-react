@@ -3,11 +3,19 @@ import * as Styles from './RepositoriesList.styles';
 import { useSearchRepositories } from '../../hooks';
 import { List } from './List';
 import { useSearchInput } from './useSearchInput';
+import { Status } from '../../models';
+import { LoadingList } from './LoadingList';
 
 export function RepositoriesList() {
   const { searchQuery, handleChange } = useSearchInput();
-  const { repositories, isLoading, isError, dispatchSearchRepositories } =
-    useSearchRepositories(searchQuery);
+  const {
+    status,
+    repositories,
+    dispatchSearchRepositories,
+    page,
+    setPage,
+    totalPages,
+  } = useSearchRepositories(searchQuery);
 
   const handleSearch = async () => {
     await dispatchSearchRepositories();
@@ -31,11 +39,15 @@ export function RepositoriesList() {
           <Styles.Button onClick={handleSearch}>Pesquisar</Styles.Button>
         </Styles.SearchBar>
 
-        <List
-          repositories={repositories}
-          isError={isError}
-          isLoading={isLoading}
-        />
+        {status === Status.loading && <LoadingList />}
+        {status === Status.success && (
+          <List
+            repositories={repositories}
+            page={page}
+            updatePagination={setPage}
+            totalPages={totalPages}
+          />
+        )}
       </Styles.Content>
     </Styles.Container>
   );
