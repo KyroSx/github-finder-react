@@ -8,6 +8,10 @@ const clear: Handler = (element) => {
   userEvent.clear(element);
 };
 
+export const pressEnterKey = () => {
+  userEvent.keyboard('[Enter]');
+};
+
 export const clearThenTypeOn: ValueHandler = (element) => (value) => {
   clear(element);
   typeOn(element)(value);

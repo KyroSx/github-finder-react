@@ -7,7 +7,9 @@ import { Status } from '../../models';
 import { LoadingList } from './LoadingList';
 
 export function RepositoriesList() {
-  const { searchQuery, handleChange } = useSearchInput();
+  const { searchQuery, updateSearchQuery, handleEnterPressed } =
+    useSearchInput();
+
   const {
     status,
     repositories,
@@ -16,10 +18,6 @@ export function RepositoriesList() {
     setPage,
     totalPages,
   } = useSearchRepositories(searchQuery);
-
-  const handleSearch = async () => {
-    await dispatchSearchRepositories();
-  };
 
   return (
     <Styles.Container>
@@ -33,10 +31,13 @@ export function RepositoriesList() {
             type="text"
             placeholder="Digite algo para pesquisar"
             value={searchQuery}
-            onChange={handleChange}
+            onChange={updateSearchQuery}
+            onKeyPress={handleEnterPressed(dispatchSearchRepositories)}
           />
 
-          <Styles.Button onClick={handleSearch}>Pesquisar</Styles.Button>
+          <Styles.Button onClick={dispatchSearchRepositories}>
+            Pesquisar
+          </Styles.Button>
         </Styles.SearchBar>
 
         {status === Status.loading && <LoadingList />}
