@@ -23,7 +23,7 @@ describe(RepositoriesList, () => {
   }
 
   function getSearchLoading() {
-    return screen.queryByText('Carregando...');
+    return screen.queryByRole('progressbar');
   }
 
   function getPagination() {
@@ -68,6 +68,32 @@ describe(RepositoriesList, () => {
     setUp();
 
     Events.typeOn(getSearchInput())('username');
+    Events.clickOn(getSearchButton());
+
+    await waitFor(() => {
+      expect(getSearchLoading()).toBeInTheDocument();
+    });
+
+    await waitFor(() => {
+      expect(getSearchLoading()).not.toBeInTheDocument();
+    });
+  });
+
+  it('shows loading between searches.', async () => {
+    setUp();
+
+    Events.typeOn(getSearchInput())('username');
+    Events.pressEnterKey();
+
+    await waitFor(() => {
+      expect(getSearchLoading()).toBeInTheDocument();
+    });
+
+    await waitFor(() => {
+      expect(getSearchLoading()).not.toBeInTheDocument();
+    });
+
+    Events.typeOn(getSearchInput())('username_2');
     Events.clickOn(getSearchButton());
 
     await waitFor(() => {

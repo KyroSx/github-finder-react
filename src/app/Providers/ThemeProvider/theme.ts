@@ -10,5 +10,10 @@ export const theme = {
 
     green: '#28a745',
     green_bold: '#218838',
+
+    loading: {
+      base: '#eaeaea',
+      highlight: '#f2f2f2',
+    },
   },
 };

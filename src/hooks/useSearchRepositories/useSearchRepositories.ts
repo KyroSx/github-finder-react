@@ -36,6 +36,18 @@ export function useSearchRepositories(
     setFetch(true);
   };
 
+  if (query.isFetching || query.isLoading) {
+    return {
+      status: Status.loading,
+      repositories: null,
+      dispatchSearchRepositories,
+
+      page: null,
+      totalPages: null,
+      setPage: null,
+    };
+  }
+
   if (query.isSuccess) {
     return {
       status: Status.success,
@@ -49,7 +61,7 @@ export function useSearchRepositories(
   }
 
   return {
-    status: query.isLoading || query.isFetching ? Status.loading : Status.error,
+    status: Status.error,
     repositories: null,
     dispatchSearchRepositories,
 
