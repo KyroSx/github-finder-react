@@ -7,6 +7,10 @@ import {
   Events,
 } from '../../testing';
 
+jest.mock('../../app/translation/useTranslation', () =>
+  require('../../testing/__mocks__/useTranslation')
+);
+
 describe(RepositoriesList, () => {
   ServerMockHandler.start(getSearchRepositoriesHandler());
 
@@ -15,11 +19,13 @@ describe(RepositoriesList, () => {
   }
 
   function getSearchInput() {
-    return screen.getByPlaceholderText('Digite algo para pesquisar');
+    return screen.getByPlaceholderText('finder.repositories.input.placeholder');
   }
 
   function getSearchButton() {
-    return screen.getByRole('button', { name: 'Pesquisar' });
+    return screen.getByRole('button', {
+      name: 'finder.repositories.button.submit',
+    });
   }
 
   function getSearchLoading() {
@@ -27,15 +33,21 @@ describe(RepositoriesList, () => {
   }
 
   function getPagination() {
-    return screen.queryByRole('navigation', { name: 'pagination' });
+    return screen.queryByRole('navigation', {
+      name: 'finder.components.pagination.container.alt',
+    });
   }
 
   function getNextPaginationButton() {
-    return getByRole(getPagination()!, 'button', { name: 'next page' });
+    return getByRole(getPagination()!, 'button', {
+      name: 'finder.components.pagination.next.alt',
+    });
   }
 
   function getPreviousPaginationButton() {
-    return getByRole(getPagination()!, 'button', { name: 'previous page' });
+    return getByRole(getPagination()!, 'button', {
+      name: 'finder.components.pagination.previous.alt',
+    });
   }
 
   it('searches username in input when button is clicked, then show the results.', async () => {

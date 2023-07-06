@@ -14,6 +14,10 @@ export const English = {
 
     components: {
       pagination: {
+        container: {
+          alt: 'pagination',
+        },
+
         previous: {
           text: 'previous',
           alt: 'go to previous page',

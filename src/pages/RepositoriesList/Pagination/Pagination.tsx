@@ -22,6 +22,7 @@ export const Pagination: React.FC<PaginationProps> = ({
   };
 
   const texts = {
+    container: translate('container.alt'),
     previous: translate('previous.text'),
     previous_label: translate('previous.alt'),
     next: translate('next.text'),
@@ -29,7 +30,7 @@ export const Pagination: React.FC<PaginationProps> = ({
   };
 
   return (
-    <Styles.PaginationContainer aria-label="pagination">
+    <Styles.PaginationContainer aria-label={texts.container}>
       <Styles.PageButton
         disabled={currentPage === 1}
         onClick={() => handlePageChange(currentPage - 1)}
