@@ -1,0 +1,15 @@
+{
+  "finder": {
+    "header": {
+      "title": "GitHub Search"
+    },
+    "repositories": {
+      "input": {
+        "placeholder": "Type github username"
+      },
+        "button": {
+          "text": "search"
+        }
+    }
+  }
+}

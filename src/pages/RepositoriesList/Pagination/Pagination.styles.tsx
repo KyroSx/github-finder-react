@@ -13,7 +13,7 @@ export const PageButton = styled.button<{ disabled: boolean }>`
   padding: 6px 12px;
   margin: 0 2px;
   cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'pointer')};
-  font-size: 14px;
+  font-size: 16px;
 
   &:hover {
     text-decoration: ${({ disabled }) => (disabled ? 'none' : 'underline')};

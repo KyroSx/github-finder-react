@@ -1,6 +1,6 @@
 import React from 'react';
 import * as Styles from './RepositoriesList.styles';
-import { useSearchRepositories } from '../../hooks';
+import { useSearchRepositories, useTranslation } from '../../hooks';
 import { List } from './List';
 import { useSearchInput } from './useSearchInput';
 import { Status } from '../../models';
@@ -19,6 +19,13 @@ export function RepositoriesList() {
     totalPages,
   } = useSearchRepositories(searchQuery);
 
+  const { translate } = useTranslation('finder.repositories');
+
+  const texts = {
+    input: translate('input.placeholder'),
+    button: translate('button.submit'),
+  };
+
   return (
     <Styles.Container>
       <Styles.Header>
@@ -29,14 +36,14 @@ export function RepositoriesList() {
         <Styles.SearchBar>
           <Styles.Input
             type="text"
-            placeholder="Digite algo para pesquisar"
+            placeholder={texts.input}
             value={searchQuery}
             onChange={updateSearchQuery}
             onKeyPress={handleEnterPressed(dispatchSearchRepositories)}
           />
 
           <Styles.Button onClick={dispatchSearchRepositories}>
-            Pesquisar
+            {texts.button}
           </Styles.Button>
         </Styles.SearchBar>
 
