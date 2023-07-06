@@ -51,6 +51,19 @@ describe(RepositoriesList, () => {
     });
   });
 
+  it('also searches username in input when enter key is pressed, then show the results.', async () => {
+    setUp();
+
+    Events.typeOn(getSearchInput())('username');
+    Events.pressEnterKey();
+
+    await waitFor(() => {
+      expect(screen.getByText('repo-name#1')).toBeInTheDocument();
+      expect(screen.getByText('repo-name#2')).toBeInTheDocument();
+      expect(screen.getByText('repo-name#3')).toBeInTheDocument();
+    });
+  });
+
   it('shows loading when button is clicked.', async () => {
     setUp();
 

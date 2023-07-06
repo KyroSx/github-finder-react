@@ -7,5 +7,16 @@ export function useSearchInput() {
     setSearchQuery(event.target.value);
   };
 
-  return { searchQuery, handleChange };
+  const handleEnterPressed =
+    (fun: Function) => async (event: React.KeyboardEvent<HTMLInputElement>) => {
+      if (event.key === 'Enter') {
+        await fun();
+      }
+    };
+
+  return {
+    searchQuery,
+    updateSearchQuery: handleChange,
+    handleEnterPressed,
+  };
 }
