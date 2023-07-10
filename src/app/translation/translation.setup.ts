@@ -6,7 +6,7 @@ import { resources } from './resources';
 i18next.use(initReactI18next).init({
   resources,
 
-  lng: 'pt',
+  lng: 'en',
 
   interpolation: {
     escapeValue: false,

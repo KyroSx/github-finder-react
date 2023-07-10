@@ -2,6 +2,7 @@ import React from 'react';
 import * as Styles from './List.styles';
 import { Repository } from '../../../models';
 import { Pagination } from '../Pagination';
+import { useTranslation } from '../../../app';
 
 interface ListProps {
   repositories: Repository[];
@@ -17,16 +18,18 @@ export function List({
   updatePagination,
   totalPages,
 }: ListProps) {
+  const { translate } = useTranslation('finder.repositories.item');
+
   return (
     <>
       <div>
         {repositories.map((repo) => (
-          <Styles.Container key={repo.id}>
+          <Styles.Container key={repo.id} id={repo.id}>
             <Styles.Header>
               <Styles.Title>{repo.name}</Styles.Title>
 
               <Styles.PrivateBadge>
-                {repo.private ? 'Privado' : 'Publíco'}
+                {repo.private ? translate('private') : translate('public')}
               </Styles.PrivateBadge>
             </Styles.Header>
 
@@ -36,7 +39,7 @@ export function List({
               )}
 
               <Styles.UpdatedAt>
-                Atualizado em {repo.updated_at}
+                {translate('updated_at', { date: repo.updated_at })}
               </Styles.UpdatedAt>
             </Styles.Footer>
           </Styles.Container>

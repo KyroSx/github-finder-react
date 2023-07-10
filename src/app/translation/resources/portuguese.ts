@@ -10,6 +10,13 @@ export const Portuguese = {
       button: {
         submit: 'Buscar',
       },
+
+      item: {
+        private: 'Privado',
+        public: 'Publíco',
+
+        updated_at: 'Atualizado em {{ date }}',
+      },
     },
 
     components: {

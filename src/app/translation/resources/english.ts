@@ -5,10 +5,17 @@ export const English = {
     },
     repositories: {
       input: {
-        placeholder: 'Type github username',
+        placeholder: 'Enter github username',
       },
       button: {
-        submit: 'search',
+        submit: 'Search',
+      },
+
+      item: {
+        private: 'Private',
+        public: 'Public',
+
+        updated_at: 'Updated at {{ date }}',
       },
     },
 
