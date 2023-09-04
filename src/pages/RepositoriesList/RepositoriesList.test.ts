@@ -1,41 +1,67 @@
 import { RepositoriesList } from './RepositoriesList';
-import { getByRole, screen, waitFor } from '@testing-library/react';
+import {
+  getByRole,
+  queryByAttribute,
+  screen,
+  waitFor,
+} from '@testing-library/react';
 import {
   getSearchRepositoriesHandler,
   renderComponent,
   ServerMockHandler,
   Events,
+  raise,
 } from '../../testing';
 
+jest.mock('../../app/translation/useTranslation', () =>
+  require('../../testing/__mocks__/useTranslation')
+);
+
 describe(RepositoriesList, () => {
-  ServerMockHandler.start(getSearchRepositoriesHandler());
+  const repositories = getSearchRepositoriesHandler();
+  ServerMockHandler.start(repositories.handler);
 
   function setUp() {
     renderComponent(RepositoriesList);
   }
 
   function getSearchInput() {
-    return screen.getByPlaceholderText('Digite algo para pesquisar');
+    return screen.getByPlaceholderText('finder.repositories.input.placeholder');
   }
 
   function getSearchButton() {
-    return screen.getByRole('button', { name: 'Pesquisar' });
+    return screen.getByRole('button', {
+      name: 'finder.repositories.button.submit',
+    });
   }
 
   function getSearchLoading() {
     return screen.queryByRole('progressbar');
   }
 
+  function getRepository(id: number) {
+    const getById = queryByAttribute.bind(null, 'id');
+    const element = getById(document as any, id.toString());
+
+    return element || raise('invalid id');
+  }
+
   function getPagination() {
-    return screen.queryByRole('navigation', { name: 'pagination' });
+    return screen.queryByRole('navigation', {
+      name: 'finder.components.pagination.container.alt',
+    });
   }
 
   function getNextPaginationButton() {
-    return getByRole(getPagination()!, 'button', { name: 'next page' });
+    return getByRole(getPagination()!, 'button', {
+      name: 'finder.components.pagination.next.alt',
+    });
   }
 
   function getPreviousPaginationButton() {
-    return getByRole(getPagination()!, 'button', { name: 'previous page' });
+    return getByRole(getPagination()!, 'button', {
+      name: 'finder.components.pagination.previous.alt',
+    });
   }
 
   it('searches username in input when button is clicked, then show the results.', async () => {
@@ -48,6 +74,29 @@ describe(RepositoriesList, () => {
       expect(screen.getByText('repo-name#1')).toBeInTheDocument();
       expect(screen.getByText('repo-name#2')).toBeInTheDocument();
       expect(screen.getByText('repo-name#3')).toBeInTheDocument();
+    });
+  });
+
+  it('renders all information about repository after search', async () => {
+    setUp();
+
+    Events.typeOn(getSearchInput())('username');
+    Events.clickOn(getSearchButton());
+
+    await waitFor(() => {
+      repositories.responses[0].response.forEach((repository) => {
+        const container = getRepository(repository.id);
+
+        expect(container).toHaveTextContent(repository.name);
+        expect(container).toHaveTextContent(
+          repository.private
+            ? 'finder.repositories.item.private'
+            : 'finder.repositories.item.public'
+        );
+        expect(container).toHaveTextContent(
+          'finder.repositories.item.updated_at' + repository.updated_at
+        );
+      });
     });
   });
 
